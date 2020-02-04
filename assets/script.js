@@ -6,11 +6,12 @@ const gameBoard = (() => {
         '', '', ''
     ];  
 
-    gameBoardArray.forEach(tile => {
+    gameBoardArray.forEach(function(tile, index) {
         let div = document.createElement('div');
         div.innerHTML = tile;
         div.classList.add('square');
         div.setAttribute('data-inside', 'empty');
+        div.setAttribute('id', index);
         grid.append(div);
     })
 
@@ -35,26 +36,38 @@ const game = (() => {
 
     let turn = player1.isFirstMove === true ? player1 : player2;
 
-    const canGo = (square) => {
+    const squareIsEmpty = (square) => {
         if(square.dataset.inside === 'empty') {return true};        
     }
-
+    
     const checkResult = (player) => {
-        console.log(player);
+        const playerMarkerPositions = document.querySelectorAll(`.${player.marker}`); 
+        playerMarkerPositions.forEach(position => console.log(position.id))  
+        
     }
 
     const placeMarker = (player, square) => {
         square.setAttribute('data-inside', player.marker);
         square.classList.add(player.marker);
+        square.innerHTML = player.marker;
         checkResult(player);
+        render(player);
     }
 
     function handleTurn() {
-        if(!canGo(this)) return;
+        if(!squareIsEmpty(this)) return;
         placeMarker(turn, this);
         turn = turn === player1 ? player2 : player1;
         return turn;
     }
 
+    function render(player) {
+        console.log(squares);
+
+
+        // const playerMarkers = squares.filter(squares.getAttribute('data-inside') === player.marker);
+    }
+
+    console.log(render());
 
 })();

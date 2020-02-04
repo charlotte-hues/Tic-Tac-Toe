@@ -25,6 +25,8 @@ body {
     width: 100px;
     border: var(--grid-border);
     text-align: center;
+    font-size: xx-large;
+    color: white;
 }
 
 .O {
