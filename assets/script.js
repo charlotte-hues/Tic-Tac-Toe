@@ -16,6 +16,8 @@ const gameBoard = (() => {
         squares.push(div);
         grid.append(div);
     })
+
+    
     return {squares}
 })();
 
@@ -24,6 +26,7 @@ const player1 = {
     marker: 'X',
     isFirstMove: false,
     positions: [],
+    score: 0,
 }
 
 const player2 = {
@@ -31,6 +34,7 @@ const player2 = {
     marker: 'O',
     isFirstMove: true,
     positions: [],
+    score: 0,
 }
 
 const game = (() => {
@@ -58,18 +62,15 @@ const game = (() => {
 
     const squareIsEmpty = (square) => square.dataset.inside === 'empty';
 
-
     const endOfGame = (result) => {
         gameBoard.squares.forEach(square => square.removeEventListener('click', handleTurn));
-        updateDom(result);
+        console.log(result);
     }
 
     const nextTurn = () => {
         turn = turn === player1 ? player2 : player1;
-        updateDom(`${turn.name} turn`);
+        console.log(`${turn.name}'s turn`);
     }
-
-    const updateDom = (message) => console.log(message);
 
     const handleTurn = (e) => {
         if(!squareIsEmpty(e.target)) return;
@@ -80,7 +81,20 @@ const game = (() => {
         return;
     }
 
+    const resetGame = () => {
+        gameBoard.squares.forEach(square => square.addEventListener('click', handleTurn));
+        gameBoard.squares.forEach(square => {
+            square.setAttribute('data-inside', 'empty');
+            square.classList.remove('X', 'O');
+            square.innerHTML = '';
+        });
+        player1.positions.length = 0;
+        player2.positions.length = 0;
+        totalMoves = 0;
+        turn = player1.isFirstMove === true ? player1 : player2;
+    }
+    
     gameBoard.squares.forEach(square => square.addEventListener('click', handleTurn));
 
-
+    return {resetGame}
 })();
