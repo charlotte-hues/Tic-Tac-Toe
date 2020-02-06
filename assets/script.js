@@ -16,30 +16,34 @@ const gameBoard = (() => {
         squares.push(div);
         grid.append(div);
     })
-
-    
+ 
     return {squares}
 })();
 
-const player1 = {
-    name: 'player 1',
-    marker: 'X',
-    isFirstMove: false,
-    positions: [],
-    score: 0,
-}
+const players = (() => {
+    const player1 = {
+        name: 'player 1',
+        marker: 'X',
+        isFirstMove: false,
+        positions: [],
+        score: 0,
+    }    
+    const player2 = {
+        name: 'player 2',
+        marker: 'O',
+        isFirstMove: true,
+        positions: [],
+        score: 0,
+    }
 
-const player2 = {
-    name: 'player 2',
-    marker: 'O',
-    isFirstMove: true,
-    positions: [],
-    score: 0,
-}
+    return {player1, player2}
+})();
+
+
 
 const game = (() => {
     let totalMoves = 0;
-    let turn = player1.isFirstMove === true ? player1 : player2;
+    let turn = players.player1.isFirstMove === true ? players.player1 : players.player2;
     
     const isWinner = (playerArr) => {
         const winArr = [[0,1,2],[3,4,5],[6,7,8],[0,4,8],[0,3,6],[1,4,7],[2,5,8],[2,4,6]]
@@ -68,7 +72,7 @@ const game = (() => {
     }
 
     const nextTurn = () => {
-        turn = turn === player1 ? player2 : player1;
+        turn = turn === players.player1 ? players.player2 : players.player1;
         console.log(`${turn.name}'s turn`);
     }
 
@@ -93,7 +97,7 @@ const game = (() => {
         totalMoves = 0;
         turn = player1.isFirstMove === true ? player1 : player2;
     }
-    
+
     gameBoard.squares.forEach(square => square.addEventListener('click', handleTurn));
 
     return {resetGame}
