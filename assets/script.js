@@ -20,18 +20,21 @@ const gameBoard = (() => {
     return {squares}
 })();
 
+
+
+
 const players = (() => {
     const player1 = {
         name: 'player 1',
         marker: 'X',
-        isFirstMove: false,
+        isFirstMove: true,
         positions: [],
         score: 0,
     }    
     const player2 = {
         name: 'player 2',
         marker: 'O',
-        isFirstMove: true,
+        isFirstMove: false,
         positions: [],
         score: 0,
     }
@@ -39,11 +42,10 @@ const players = (() => {
     return {player1, player2}
 })();
 
-
-
-const game = (() => {
+const game = () => {
     let totalMoves = 0;
     let turn = players.player1.isFirstMove === true ? players.player1 : players.player2;
+    domEl.gameInfo.innerHTML = `${turn.name} goes first`;
     
     const isWinner = (playerArr) => {
         const winArr = [[0,1,2],[3,4,5],[6,7,8],[0,4,8],[0,3,6],[1,4,7],[2,5,8],[2,4,6]]
@@ -68,12 +70,12 @@ const game = (() => {
 
     const endOfGame = (result) => {
         gameBoard.squares.forEach(square => square.removeEventListener('click', handleTurn));
-        console.log(result);
+        domEl.gameInfo.innerHTML = result;
     }
 
     const nextTurn = () => {
         turn = turn === players.player1 ? players.player2 : players.player1;
-        console.log(`${turn.name}'s turn`);
+        domEl.gameInfo.innerHTML = (`${turn.name}'s turn`);
     }
 
     const handleTurn = (e) => {
@@ -85,20 +87,43 @@ const game = (() => {
         return;
     }
 
-    const resetGame = () => {
+    const resetGame = (() => {
         gameBoard.squares.forEach(square => square.addEventListener('click', handleTurn));
         gameBoard.squares.forEach(square => {
             square.setAttribute('data-inside', 'empty');
             square.classList.remove('X', 'O');
             square.innerHTML = '';
         });
-        player1.positions.length = 0;
-        player2.positions.length = 0;
+        players.player1.positions.length = 0;
+        players.player2.positions.length = 0;
         totalMoves = 0;
-        turn = player1.isFirstMove === true ? player1 : player2;
-    }
+        turn = players.player1.isFirstMove === true ? players.player1 : players.player2;
+    })();
 
     gameBoard.squares.forEach(square => square.addEventListener('click', handleTurn));
 
     return {resetGame}
+};
+
+const domEl = (() => {
+    const gameInfo = document.querySelector('#turn-info');
+    const startGameButton = document.querySelector('#start-game');
+    const player1Name = document.querySelector('#player1-name');
+    const player2Name = document.querySelector('#player2-name');
+
+    const playerInputs = [player1Name, player2Name];
+    
+
+    const updatePlayerName = (e) => {
+        console.log(e.target.value);
+        console.log(players[e.target.dataset.player].name)
+        
+        players[e.target.dataset.player].name = e.target.value;
+    }
+
+    startGameButton.addEventListener('click', game);
+    playerInputs.forEach(input => input.addEventListener('input', updatePlayerName));
+
+
+    return {gameInfo, startGameButton}
 })();
