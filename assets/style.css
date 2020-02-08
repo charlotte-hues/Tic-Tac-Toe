@@ -37,6 +37,15 @@ body {
 }
 
 .square {
+    fill: none;
+}
+
+.test {
+    fill: var(--primary-colour);
+}
+
+
+.square {
     display: flex;
     justify-content: center;
     align-items: center;

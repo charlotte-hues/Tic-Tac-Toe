@@ -74,7 +74,7 @@ const game = () => {
     }
 
     const nextTurn = () => {
-        turn = turn === players.player1 ? players.player2 : players.player1;
+        turn = turn === players.player1 ? players.player2 : players.player1;        
         domEl.gameInfo.innerHTML = (`${turn.name}'s turn`);
     }
 
@@ -112,7 +112,8 @@ const domEl = (() => {
     const player2Name = document.querySelector('#player2-name');
 
     const playerInputs = [player1Name, player2Name];
-    
+    console.log(player1Cross)
+
 
     const updatePlayerName = (e) => {
         console.log(e.target.value);
@@ -123,7 +124,6 @@ const domEl = (() => {
 
     startGameButton.addEventListener('click', game);
     playerInputs.forEach(input => input.addEventListener('input', updatePlayerName));
-
-
+    
     return {gameInfo, startGameButton}
 })();
