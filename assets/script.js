@@ -20,9 +20,6 @@ const gameBoard = (() => {
     return {squares}
 })();
 
-
-
-
 const players = (() => {
     const player1 = {
         name: 'player 1',
@@ -39,7 +36,9 @@ const players = (() => {
         score: 0,
     }
 
-    return {player1, player2}
+    const markers = [player1.marker, player2.marker];
+
+    return {player1, player2, markers}
 })();
 
 const game = () => {
@@ -111,19 +110,31 @@ const domEl = (() => {
     const player1Name = document.querySelector('#player1-name');
     const player2Name = document.querySelector('#player2-name');
 
-    const playerInputs = [player1Name, player2Name];
-    console.log(player1Cross)
+    const player1Naught = document.querySelector('#player1-naught-selector');
+    const player1Cross = document.querySelector('#player1-cross-selector');
+    const player2Naught = document.querySelector('#player2-naught-selector');
+    const player2Cross = document.querySelector('#player2-cross-selector');
 
+
+    const playerInputs = [player1Name, player2Name];
+    const playerMarkers = [player1Naught, player1Cross, player2Naught, player2Cross];
+
+    const togglePlayerMarkers = () => {
+        playerMarkers.forEach(marker => {
+            marker.classList.toggle('selected');
+            marker.disabled = marker.disabled ? false : true;
+        })
+        players.player1.marker = players.player1.marker === 'X' ? 'O' : 'X';
+        players.player2.marker = players.player2.marker === 'X' ? 'O' : 'X';
+    }
 
     const updatePlayerName = (e) => {
-        console.log(e.target.value);
-        console.log(players[e.target.dataset.player].name)
-        
         players[e.target.dataset.player].name = e.target.value;
     }
 
     startGameButton.addEventListener('click', game);
     playerInputs.forEach(input => input.addEventListener('input', updatePlayerName));
+    playerMarkers.forEach(marker => marker.addEventListener('click', togglePlayerMarkers));
     
     return {gameInfo, startGameButton}
 })();

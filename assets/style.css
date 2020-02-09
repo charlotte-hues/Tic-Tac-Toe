@@ -57,17 +57,17 @@ body {
     color: #FC766A;
 }
 
-.naught {
-    fill: #FC766A;
-    display: none;
-}
-
-.cross {
-    fill: #FC766A;
-    display: none;
-}
-
 button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+#start-game {
     width: 300px;
     color: var(--primary-colour);
     background: none;
