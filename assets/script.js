@@ -86,10 +86,6 @@ const game = () => {
     }
 
     const resetGame = () => {
-        console.log(totalMoves.length)
-        totalMoves.length = 0;
-        
-        console.log(totalMoves.length)
         gameBoard.squares.forEach(square => square.addEventListener('click', handleTurn));
         gameBoard.squares.forEach(square => {
             square.setAttribute('data-inside', 'empty');
@@ -98,7 +94,6 @@ const game = () => {
         });
         players.player1.positions.length = 0;
         players.player2.positions.length = 0;
-        turn = players.player1.isFirstMove === true ? players.player1 : players.player2;
     };
 
 
