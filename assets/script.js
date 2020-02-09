@@ -42,7 +42,7 @@ const players = (() => {
 })();
 
 const game = () => {
-    let totalMoves = 0;
+    const totalMoves = [];
     let turn = players.player1.isFirstMove === true ? players.player1 : players.player2;
     domEl.gameInfo.innerHTML = `${turn.name} goes first`;
     
@@ -55,7 +55,7 @@ const game = () => {
         const position = gameBoard.squares.indexOf(square);
         player.positions.push(position);        
         if(isWinner(player.positions)) return `${player.name} is the winner`;
-        if(totalMoves === 9) return "It's a Draw!";
+        if(totalMoves.length >= 9) return "It's a Draw!";
         return 'no result';
     }
 
@@ -79,14 +79,17 @@ const game = () => {
 
     const handleTurn = (e) => {
         if(!squareIsEmpty(e.target)) return;
-        totalMoves++;
         placeMarker(turn, e.target);
         let result = getResult(turn, e.target);
         (result == 'no result') ? nextTurn() :  endOfGame(result);
         return;
     }
 
-    const resetGame = (() => {
+    const resetGame = () => {
+        console.log(totalMoves.length)
+        totalMoves.length = 0;
+        
+        console.log(totalMoves.length)
         gameBoard.squares.forEach(square => square.addEventListener('click', handleTurn));
         gameBoard.squares.forEach(square => {
             square.setAttribute('data-inside', 'empty');
@@ -95,10 +98,11 @@ const game = () => {
         });
         players.player1.positions.length = 0;
         players.player2.positions.length = 0;
-        totalMoves = 0;
         turn = players.player1.isFirstMove === true ? players.player1 : players.player2;
-    })();
+    };
 
+
+    resetGame();
     gameBoard.squares.forEach(square => square.addEventListener('click', handleTurn));
 
     return {resetGame}
@@ -107,17 +111,18 @@ const game = () => {
 const domEl = (() => {
     const gameInfo = document.querySelector('#turn-info');
     const startGameButton = document.querySelector('#start-game');
-    const player1Name = document.querySelector('#player1-name');
-    const player2Name = document.querySelector('#player2-name');
 
-    const player1Naught = document.querySelector('#player1-naught-selector');
-    const player1Cross = document.querySelector('#player1-cross-selector');
-    const player2Naught = document.querySelector('#player2-naught-selector');
-    const player2Cross = document.querySelector('#player2-cross-selector');
-
-
-    const playerInputs = [player1Name, player2Name];
-    const playerMarkers = [player1Naught, player1Cross, player2Naught, player2Cross];
+    const playerNames = [
+        document.querySelector('#player1-name'),
+        document.querySelector('#player2-name')
+    ];
+    const playerMarkers = [
+        document.querySelector('#player1-naught-selector'),
+        document.querySelector('#player1-cross-selector'),
+        document.querySelector('#player2-naught-selector'),
+        document.querySelector('#player2-cross-selector')
+    ];
+    const playerInputs = playerNames.concat(playerMarkers);
 
     const togglePlayerMarkers = () => {
         playerMarkers.forEach(marker => {
@@ -132,8 +137,14 @@ const domEl = (() => {
         players[e.target.dataset.player].name = e.target.value;
     }
 
-    startGameButton.addEventListener('click', game);
-    playerInputs.forEach(input => input.addEventListener('input', updatePlayerName));
+    const startGame = () => {
+        startGameButton.innerHTML = 'Restart Game';
+        playerInputs.forEach(marker => marker.disabled = 'true')
+        game();
+    }
+
+    startGameButton.addEventListener('click', startGame);
+    playerNames.forEach(input => input.addEventListener('input', updatePlayerName));
     playerMarkers.forEach(marker => marker.addEventListener('click', togglePlayerMarkers));
     
     return {gameInfo, startGameButton}
