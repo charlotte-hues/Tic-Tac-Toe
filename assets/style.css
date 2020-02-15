@@ -7,6 +7,7 @@
     --secondary-color: #52667A;
     --background-colour: #00203F;
     --grid-border: 1px solid var(--primary-colour);
+    --svg-size: 3vmax;
 }
 
 html,
@@ -16,6 +17,10 @@ body {
     background: var(--background-colour);
     color: var(--primary-colour);
     font-family: 'Roboto', sans-serif;
+}
+
+h4 {
+    font-size: 2vmax;
 }
 
 #page-container {
@@ -29,16 +34,13 @@ body {
 }
 
 #grid-container {
-    height: 300px;
-    width: 300px;
+    height: 40vmax;
+    width: 40vmax;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
 }
 
-.square {
-    fill: none;
-}
 
 .test {
     fill: var(--primary-colour);
@@ -49,8 +51,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px;
-    width: 100px;
+    height: 100%;
+    width: 100%;
     border: var(--grid-border);
     text-align: center;
     font-size: xx-large;
@@ -58,6 +60,7 @@ body {
 }
 
 button {
+    font-size: 1.5vmax;
     background: none;
     border: none;
     cursor: pointer;
@@ -72,11 +75,12 @@ button:disabled {
 }
 
 #start-game {
-    width: 300px;
+    width: 40vmax;
+    height: 3vmax;
     color: var(--primary-colour);
     background: none;
     padding: 4px;
-    border: 1px solid var(--primary-colour);
+    border: 0.15vmax solid var(--primary-colour);
 }
 
 #player-selection {
@@ -95,6 +99,7 @@ button:disabled {
 }
 
 .player > input {
+    font-size: 2vmax;
     width: 50%;
     background: none;
     color: var(--primary-colour);
@@ -112,18 +117,11 @@ button:disabled {
 
 
 .divider {
-    width: 300px;
-    border: 0.5px solid var(--secondary-color);
+    width: 40vmax;
+    height: 0.3vmax;
+    background: var(--secondary-color);
 }
 
-
-/* .O {
-    background: red;
-}
-
-.X {
-    background: blue;
-} */
 
 .grid-lines {
     z-index: -1;

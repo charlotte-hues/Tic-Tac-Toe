@@ -54,7 +54,7 @@ const game = () => {
     const getResult = (player, square) => {
         const position = gameBoard.squares.indexOf(square);
         player.positions.push(position);        
-        if(isWinner(player.positions)) return `${player.name} is the winner`;
+        if(isWinner(player.positions)) return `${player.name} is the winner!`;
         if(totalMoves.length >= 9) return "It's a Draw!";
         return 'no result';
     }
@@ -85,20 +85,26 @@ const game = () => {
         return;
     }
 
-    const resetGame = () => {
-        gameBoard.squares.forEach(square => square.addEventListener('click', handleTurn));
+    const clearBoard = () => {
+        gameBoard.squares.forEach(square => square.removeEventListener('click', handleTurn));
         gameBoard.squares.forEach(square => {
             square.setAttribute('data-inside', 'empty');
             square.classList.remove('X', 'O');
             square.innerHTML = '';
         });
+        domEl.gameInfo.innerHTML = `Do you want to play again?`;
+        domEl.startGameButton.removeEventListener('click', clearBoard);
+    }
+
+    const resetGame = () => {
+        gameBoard.squares.forEach(square => square.addEventListener('click', handleTurn));
         players.player1.positions.length = 0;
         players.player2.positions.length = 0;
     };
 
-
+    domEl.startGameButton.addEventListener('click', clearBoard);
     resetGame();
-    gameBoard.squares.forEach(square => square.addEventListener('click', handleTurn));
+
 
     return {resetGame}
 };
@@ -132,10 +138,17 @@ const domEl = (() => {
         players[e.target.dataset.player].name = e.target.value;
     }
 
-    const startGame = () => {
-        startGameButton.innerHTML = 'Restart Game';
-        playerInputs.forEach(marker => marker.disabled = 'true')
-        game();
+    const startGame = (e) => {
+        console.log(e.target)
+        if(e.target.innerHTML == 'Start') {
+            startGameButton.innerHTML = 'New Game';
+            playerInputs.forEach(marker => marker.disabled = true);
+            game();
+        } else {
+            startGameButton.innerHTML = 'Start';
+            playerInputs.forEach(marker => marker.disabled = false);
+        }
+        
     }
 
     startGameButton.addEventListener('click', startGame);
