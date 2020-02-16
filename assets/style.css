@@ -35,17 +35,13 @@ h4 {
 
 #grid-container {
     height: 40vmax;
+    max-height: 600px;
     width: 40vmax;
+    max-height: 600px;;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
 }
-
-
-.test {
-    fill: var(--primary-colour);
-}
-
 
 .square {
     display: flex;
@@ -81,6 +77,10 @@ button:disabled {
     background: none;
     padding: 4px;
     border: 0.15vmax solid var(--primary-colour);
+}
+
+#start-game:hover {
+    background: var(--secondary-color);
 }
 
 #player-selection {
@@ -138,4 +138,36 @@ button:disabled {
     grid-area: 1 / 2 / 4 / 3;
     border-left: var(--grid-border);
     border-right: var(--grid-border);
+}
+
+@media only screen and (min-width: 992px) {
+    #start-game {
+        height: 40px;
+        width: 300px;
+        font-size: larger;
+    }
+
+    #grid-container {
+        height: 300px;
+        width: 300px;
+    }
+
+    .divider {
+        width: 300px;;
+        height: 4px;
+    }
+
+    .player > input {
+        font-size: large;
+    }
+
+    h4 {
+        font-size: larger;
+    }
+
+    svg {
+        height: 22px;
+        width: 22px;
+    }
+
 }

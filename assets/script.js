@@ -126,9 +126,11 @@ const domEl = (() => {
     const playerInputs = playerNames.concat(playerMarkers);
 
     const togglePlayerMarkers = () => {
+        console.log('switch');
         playerMarkers.forEach(marker => {
             marker.classList.toggle('selected');
             marker.disabled = marker.disabled ? false : true;
+            console.log(marker.disabled);
         })
         players.player1.marker = players.player1.marker === 'X' ? 'O' : 'X';
         players.player2.marker = players.player2.marker === 'X' ? 'O' : 'X';
