@@ -129,8 +129,7 @@ const domEl = (() => {
         console.log('switch');
         playerMarkers.forEach(marker => {
             marker.classList.toggle('selected');
-            marker.disabled = marker.disabled ? false : true;
-            console.log(marker.disabled);
+            marker.classList.contains('selected') ? marker.disabled = true : marker.disabled = false;
         })
         players.player1.marker = players.player1.marker === 'X' ? 'O' : 'X';
         players.player2.marker = players.player2.marker === 'X' ? 'O' : 'X';
@@ -141,7 +140,6 @@ const domEl = (() => {
     }
 
     const startGame = (e) => {
-        console.log(e.target)
         if(e.target.innerHTML == 'Start') {
             startGameButton.innerHTML = 'New Game';
             playerInputs.forEach(marker => marker.disabled = true);
